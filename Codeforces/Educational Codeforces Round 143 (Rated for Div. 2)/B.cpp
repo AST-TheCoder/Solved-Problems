@@ -14,10 +14,27 @@ using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statisti
 template <typename T>
 using min_heap=priority_queue<T, vector<T>, greater<T>>;
 
-
 int main()
 {
-    
+
+    ll t;
+    cin>>t;
+
+    while(t--){
+        ll n,k;
+        cin>>n>>k;
+
+        ll x=0,y=0;
+        for(ll i=0;i<n;i++){
+            ll l,r;
+            cin>>l>>r;
+            if(l==k) x=1;
+            if(r==k) y=1;
+        }
+
+        if(x && y) cout<<"YES"<<"\n";
+        else cout<<"NO"<<"\n";
+    }
 
     return 0;
 }

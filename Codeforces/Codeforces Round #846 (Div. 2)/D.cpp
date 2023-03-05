@@ -14,9 +14,9 @@ using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statisti
 template <typename T>
 using min_heap=priority_queue<T, vector<T>, greater<T>>;
 
-
 int main()
 {
+
     
 
     return 0;

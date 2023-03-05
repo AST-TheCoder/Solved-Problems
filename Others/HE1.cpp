@@ -14,10 +14,32 @@ using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statisti
 template <typename T>
 using min_heap=priority_queue<T, vector<T>, greater<T>>;
 
-
 int main()
 {
-    
+
+    ll t;
+    cin>>t;
+
+    while(t--){
+        ll n;
+        cin>>n;
+
+        ll a[n];
+        for(ll i=0;i<n;i++) cin>>a[i];
+
+        ll ans=0;
+        for(ll i=0,j=0,s=0,x=0;j<n;j++){
+            x^=a[j];
+            s+=a[j];
+            while(x!=s){
+                s-=a[i];
+                x^=a[i];
+                i++;
+            }
+            ans+=(j-i+1);
+        }
+        cout<<ans<<endl;
+    }
 
     return 0;
 }
