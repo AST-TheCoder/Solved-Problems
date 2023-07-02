@@ -10,54 +10,62 @@ using namespace __gnu_pbds;
 #define Max 10000000000000000
 
 template <typename T>
-using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+using ordered_set = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
 template <typename T>
 using min_heap=priority_queue<T, vector<T>, greater<T>>;
-
-ll g[101];
-
-void grundy(ll x){
-    ll cnt[101];
-    memset(cnt,0,sizeof(cnt));
-    for(ll i=2;i<=x;i++){
-        ll temp=g[i-2]^g[x-i];
-        cnt[temp]=1;
-    }
-    while(cnt[g[x]]) g[x]++;
-}
 
 int main()
 {
 
-    for(ll i=2;i<=100;i++){
-        grundy(i);
-    }
-
-    ll t,ii=0;
-    cin>>t;
+    ll t;
+    scanf("%lli",&t);
 
     while(t--){
         ll n;
-        cin>>n;
+        scanf("%lli",&n);
 
-        string a,b,c;
-        cin>>a>>b>>c;
+        ll a[n];
+        ordered_set<ll> s;
+        for(ll i=0;i<n;i++){
+            scanf("%lli",&a[i]);
+            s.insert(a[i]);
+        }
 
-        ll chk=0;
-
-        a=a+"X";
-        b=b+"X";
-        c=c+"X";
-        for(ll i=1,s=0;i<a.size();i++){
-            if((a[i]=='O' && a[i-1]=='O' && b[i]=='O' && b[i-1]=='O') || (b[i]=='O' && b[i-1]=='O' && c[i]=='O' && c[i-1]=='O')){
-                s++;
+        vector<ll> d[n];
+        sort(a,a+n);
+        for(ll i=0;i<n;i++){
+            if(i && a[i]==a[i-1]){
+                d[i]=d[i-1];
                 continue;
             }
-            chk^=g[s+1];
-            s=0;
+            for(ll j=1;j*j*j<=a[i];j++){
+                if(a[i]%(j*j)==0) d[i].pb(j);
+                if(a[i]%j) continue;
+                ll v=a[i]/j;
+                ll p=sqrt(v);
+                if(p*p==v) d[i].pb(p);
+            }
+            sort(all(d[i]));
         }
-        if(chk) cout<<"Case "<<++ii<<": "<<"Jhinuk"<<endl;
-        else cout<<"Case "<<++ii<<": "<<"Grandma"<<endl;
+        ll ans=0;
+        for(ll i=0;i<n;i++){
+            for(ll j=0;j<d[i].size();j++){
+                if(j && d[i][j]==d[i][j-1]) continue;
+                ll x=d[i][j];
+                if(x==1){
+                    ll cnt=s.order_of_key(a[i]+1)-s.order_of_key(a[i]);
+                    //cout<<a[i]<<" "<<cnt<<endl;
+                    ans+=((cnt-1)*(cnt-2));
+                    continue;
+                }
+                ll p=a[i]/x;
+                ll q=p/x;
+                p=s.order_of_key(p+1)-s.order_of_key(p);
+                q=s.order_of_key(q+1)-s.order_of_key(q);
+                ans+=(p*q);
+            }
+        }
+        printf("%lli\n",ans);
     }
 
     return 0;

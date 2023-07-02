@@ -1,46 +1,33 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
 using namespace std;
-const int MAX = 105;
-int grundy[MAX];
-int vis[MAX + 5];
-int cas;
-void solve(){
-	cout << "Case "<<++cas<<": ";
-	int n;
-	cin >> n;
-	string s[3];
-	cin >> s[0] >> s[1] >> s[2];
-	int ans = 0;
-	int cnt = 0;
-	for(int i = 0; i < n; i++){
-		if(s[1][i] == 'X' || (s[0][i] == 'X' && s[2][i] == 'X')){
-			ans ^= grundy[cnt];
-			cnt = 0;
-		}
-		else if(cnt > 0 && ((s[0][i] == 'X' && s[2][i - 1] == 'X') || (s[0][i - 1] == 'X' && s[2][i] == 'X'))){
-			ans ^= grundy[cnt];
-			cnt = 1;
-		}
-		else cnt++;
-	}
-	ans ^= grundy[cnt];
-	cout << (ans ? "Jhinuk" : "Grandma") << '\n';
+using namespace __gnu_pbds;
 
-}
+#define ll long long int
+#define pb push_back
+#define all(x) x.begin(),x.end()
+#define Max 10000000000000000
 
-int32_t main(){
-	ios_base::sync_with_stdio(0), cin.tie(0);
-	int t = 1;
-	grundy[0] = grundy[1] = 0;
-	for(int i = 2; i < MAX; i++){
-		memset(vis, 0, sizeof vis);
-		for(int j = 2; j <= i; j++){
-			int cur = grundy[j - 2] ^ grundy[i - j];
-			vis[cur] = 1;
+template <typename T>
+using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+template <typename T>
+using min_heap=priority_queue<T, vector<T>, greater<T>>;
+
+int main()
+{
+
+	ll c=0;
+	for(ll i=1;i<=24;i++){
+		for(ll j=i;j<=24;j++){
+			ll lcm=(i*j)/__gcd(i,j);
+			if(lcm==24){
+				c++;
+				cout<<i<<" "<<j<<endl;
+			}
 		}
-		while(vis[grundy[i]]) grundy[i]++;
 	}
-    for(int i=100;i>=0;i--) cout<<i<<" "<<grundy[i]<<endl;
-	cin >> t;
-	while(t--) solve();
+	cout<<c<<endl;
+
+	return 0;
 }
