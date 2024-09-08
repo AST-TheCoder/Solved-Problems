@@ -17,7 +17,17 @@ using min_heap=priority_queue<T, vector<T>, greater<T>>;
 int main()
 {
 
-    
+    ll t;
+    cin>>t;
+
+    while(t--){
+        ll a,b,c;
+        cin>>a>>b>>c;
+        a+=(c+1)/2;
+        b+=c/2;
+        if(a>b) cout<<"First"<<endl;
+        else cout<<"Second"<<endl;
+    }
 
     return 0;
 }

@@ -17,7 +17,24 @@ using min_heap=priority_queue<T, vector<T>, greater<T>>;
 int main()
 {
 
-    
+    ll t;
+    cin>>t;
+
+    while(t--){
+        ll n;
+        cin>>n;
+
+        ll a[n+1];
+        memset(a,0,sizeof(a));
+        for(ll i=1;i<=n;i++){
+            if(a[i]) continue;
+            for(ll j=i;j<=n;j*=2){
+                cout<<j<<" ";
+                a[j]=1;
+            }
+        }
+        cout<<endl;
+    }
 
     return 0;
 }
